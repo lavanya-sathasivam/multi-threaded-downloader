@@ -1,13 +1,10 @@
 from downloader import MultiThreadDownloader
 
-
 class DownloadManager:
-
     def __init__(self):
         self.queue = []
 
     def add_download(self, url, threads):
-
         job = {
             "url": url,
             "threads": threads,
