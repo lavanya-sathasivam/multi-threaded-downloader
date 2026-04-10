@@ -150,7 +150,5 @@ MIT License
 
 # Author
 
-Lavanya S,
-Shamrrin Baanu S, 
-Subash S
-Students of AIML Department
+Lavanya S
+Student of AIML Department
