@@ -28,3 +28,5 @@ dist/
 # Downloaded files
 downloads/
 *.part
+temp_chunks/
+data/history.json

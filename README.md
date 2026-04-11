@@ -1,154 +1,88 @@
-# Multi-Thread Downloader
+# OS Project Multi-Threaded Downloader
 
-A high-performance **multi-threaded file downloader** built with Python that splits files into segments and downloads them concurrently to maximize network utilization.
+A polished Windows desktop downloader built with Python and CustomTkinter for an Operating Systems project. The app downloads files in parallel chunks, shows thread activity live, manages a queue safely, and exposes pause, resume, cancel, retry, and history actions in one GUI.
 
-This project demonstrates key **Operating System concepts** such as multithreading, concurrency, synchronization, and resource sharing while providing a practical system utility similar to a lightweight download manager.
+## Features
 
----
+- Multi-threaded chunk downloading with HTTP range requests
+- Automatic fallback to single-thread mode when a server does not support ranges
+- Session-only pause and resume
+- Cancel and retry controls
+- Sequential download queue for predictable demos
+- Live task table with progress, speed, ETA, and task state
+- Thread monitor showing worker-level status and per-thread bytes
+- Download history stored in `data/history.json`
+- Open-file and open-folder shortcuts after completion
 
-# Features
+## OS Concepts Demonstrated
 
-• Multi-threaded segmented downloading
-• Pause and resume support
-• Download speed monitoring
-• ETA prediction
-• Download queue manager
-• Graphical user interface (Tkinter)
-• Automatic file merging
-• Download history tracking
+- Multithreading through chunk workers
+- Synchronization between UI, queue manager, and worker threads
+- Shared resource coordination when combining chunk files
+- Task lifecycle management and state transitions
+- I/O management with streamed network reads and file writes
 
----
+## Project Structure
 
-# System Architecture
-
-User URL
-↓
-File size detection (HTTP HEAD request)
-↓
-Segment splitter
-↓
-Thread workers download segments in parallel
-↓
-Temporary file storage
-↓
-Merge engine combines all segments
-↓
-Final downloaded file
-
----
-
-# Technologies Used
-
-Python
-Threading module
-HTTP Range Requests
-Requests library
-Tkinter GUI
-JSON for persistent state
-
----
-
-# Operating System Concepts Demonstrated
-
-Multithreading
-Concurrency
-Thread synchronization
-Resource sharing
-Context switching
-I/O management
-
----
-
-# Project Structure
-
-```
-download-manager
-│
-├── src
-│   ├── manager.py
-│   ├── downloader.py
-│   ├── thread_worker.py
-│   ├── utils.py
-│   └── ui.py
-│
-├── downloads
-├── history.json
-├── requirements.txt
-└── README.md
+```text
+multi-threaded-downloader/
+|-- app.py
+|-- data/
+|   `-- history.json
+|-- downloads/
+|-- temp_chunks/
+`-- src/
+    |-- core/
+    |   |-- chunk_worker.py
+    |   |-- download_task.py
+    |   |-- downloader.py
+    |   |-- pause_resume.py
+    |   `-- queue_manager.py
+    |-- ui/
+    |   `-- main_window.py
+    `-- utils/
+        |-- file_utils.py
+        |-- history_db.py
+        `-- network_utils.py
 ```
 
----
+## Architecture Flow
 
-# Installation
+1. User enters a URL, thread count, and save folder in the GUI.
+2. The queue manager creates a `DownloadTask` and places it in the queue.
+3. The downloader probes the server for file size, filename, and range support.
+4. If ranges are supported, the file is split into byte segments and downloaded by multiple worker threads.
+5. Progress from each thread is aggregated into task-level speed, ETA, and UI updates.
+6. Temporary chunk files are merged into the final output file.
+7. The task is marked completed and recorded in history.
 
-Clone the repository
+## Installation
 
-```
-git clone https://github.com/yourusername/multithread-download-manager.git
-cd multithread-download-manager
-```
-
-Install dependencies
-
-```
+```bash
 pip install -r requirements.txt
 ```
 
----
+## Run The App
 
-# Run the Application
-
-```
-python src/ui.py
+```bash
+python app.py
 ```
 
----
+## Demo Notes
 
-# How It Works
+- The app processes one queued task at a time to keep the UI stable during demos.
+- Pause and resume work while the app stays open.
+- Servers without `Accept-Ranges: bytes` are downloaded in single-thread mode automatically.
 
-1. The application receives a file URL from the user.
-2. It sends a HEAD request to determine the file size.
-3. The file is divided into multiple byte ranges.
-4. Each range is downloaded using a separate thread.
-5. Downloaded segments are stored temporarily.
-6. After all threads complete, segments are merged into the final file.
+## Optional Packaging
 
----
+If you want a portable Windows demo build later, you can package it with PyInstaller:
 
-# Example Workflow
+```bash
+pip install pyinstaller
+pyinstaller --noconfirm --windowed --name os-downloader app.py
+```
 
-1. Enter file URL
-2. Select number of threads
-3. Start download
-4. Monitor progress, speed, and ETA
-5. Pause or resume download
-6. File merges automatically after completion
-
----
-
-# Future Improvements
-
-Download scheduling
-Bandwidth limiting
-Dark mode interface
-Browser integration
-Advanced thread monitoring
-
----
-
-# Educational Purpose
-
-This project was developed as part of an **Operating Systems course project** to demonstrate practical implementation of multithreading and concurrent programming concepts.
-
----
-
-# License
-
-MIT License
-
----
-
-# Author
+## Author
 
 Lavanya S
-Student of AIML Department
