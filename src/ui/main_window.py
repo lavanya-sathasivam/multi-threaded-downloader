@@ -31,7 +31,7 @@ class DownloaderApp(ctk.CTk):
         super().__init__()
         ensure_app_directories()
 
-        self.title("OS Project Multi-Threaded Downloader")
+        self.title("Multi-Threaded Downloader")
         self.geometry("1240x820")
         self.minsize(1100, 740)
 
@@ -82,7 +82,7 @@ class DownloaderApp(ctk.CTk):
         ).grid(row=0, column=0, padx=18, pady=(16, 2), sticky="w")
         ctk.CTkLabel(
             header,
-            text="Built for OS-project demos: visible threads, queue states, pause/resume, and clean history.",
+            text="Visible threads, queue states, pause/resume, and clean history.",
             text_color="#a7f3d0",
         ).grid(row=1, column=0, padx=18, pady=(0, 16), sticky="w")
 
